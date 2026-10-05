@@ -1,0 +1,25 @@
+# Example job submission body — POST this (as JSON) to /jobs.
+# Shown as YAML here for readability; convert to JSON when sending.
+job_id: "gemma-lora-run-001"
+base_model: "google/gemma-2-9b"
+dataset_id: "instruction-tuning-v1"
+quantization: "nf4"
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+schedule:
+  batch_size: 4
+  gradient_accumulation_steps: 4
+  learning_rate: 0.0002
+  lr_scheduler: "cosine"
+  num_epochs: 3
+  warmup_ratio: 0.03
+eval:
+  run_perplexity: true
+  run_llm_judge: true
+  judge_model: "gemini-2.5-flash"
+  holdout_fraction: 0.05
+checkpoint_every_steps: 200
+notes: "baseline run"
